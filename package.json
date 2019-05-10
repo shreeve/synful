@@ -1,0 +1,19 @@
+{
+  "name": "synful",
+  "version": "0.1.0",
+  "description": "Beautiful syntax highlighting, all in one page.",
+  "main": "index.js",
+  "scripts": {
+    "build": "coffee -b -c index.coffee && rollup -f cjs index.js > index.cjs && mv index.cjs index.js",
+    "clean": "rm -rf node_modules package-lock.json yarn.lock yarn-error.log index.js"
+  },
+  "keywords": [],
+  "author": "Steve Shreeve <steve.shreeve@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "coffeescript": "^2.4",
+    "rollup": "^1.6"
+  },
+  "peerDependencies": {
+  }
+}
