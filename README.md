@@ -25,6 +25,8 @@ is made possible by the amazing Rouge library.
 $ synful winr/bin/winr censive/lib/censive.rb
 ```
 
+<img src="https://user-images.githubusercontent.com/142875/219864590-482cb060-465c-4fbb-9fe0-3de34dea703e.png" width="900">
+
 A more complicated example is:
 
 ```
