@@ -14,6 +14,7 @@
 # ============================================================================
 # TODO:
 # 1. Ensure there is a section for a file, even when it has a bad encoding
+# 2. See https://stackoverflow.com/questions/18519641/why-cant-i-refer-to-data-in-class-context
 # ============================================================================
 
 require "optparse"
