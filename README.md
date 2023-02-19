@@ -25,6 +25,8 @@ is made possible by the amazing Rouge library.
 $ synful winr/bin/winr censive/lib/censive.rb
 ```
 
+<img src="https://user-images.githubusercontent.com/142875/219864590-482cb060-465c-4fbb-9fe0-3de34dea703e.png" width="900">
+
 A more complicated example is:
 
 ```
@@ -36,7 +38,7 @@ exclude all files with the `.spec` or `.ru` extensions. It will also
 include files from the `lib/` and `test/` directories as well as the
 `/tmp/example.rb` file. Even though the `test/boring-results.txt` file
 should be rendered, we have disabled it via the `-` (minus sign or dash)
-in front of it's filename. Note that to use this type of negation, we
+in front of its filename. Note that to use this type of negation, we
 need to precede it with a "double-dash" `--` to tell `synful` that we
 are done with the normal command options.
 
