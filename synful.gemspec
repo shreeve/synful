@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "synful"
-  s.version     = "1.0.4"
+  s.version     = "1.1.0"
   s.author      = "Steve Shreeve"
   s.email       = "steve.shreeve@gmail.com"
   s.summary     =
@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.executables = `cd bin && git ls-files .`.split("\n")
   s.add_runtime_dependency "rouge", "~> 4.0"
   s.add_runtime_dependency "sinatra", "~> 3.0"
+  s.add_runtime_dependency "webrick", "~> 1.8"
 end
