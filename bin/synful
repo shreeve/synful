@@ -90,7 +90,10 @@ class Synful < Sinatra::Application
           if !File.readable?(path) || path == "."
             next
           elsif File.directory?(path)
-            Find.prune if File.basename(path).start_with?(".") or skip&.include?(path)
+            base = File.basename(path)
+            Find.prune if base.start_with?(".") or
+                          base == "node_modules" or
+                          skip&.include?(path)
           elsif File.file?(path)
             next if skip&.include?(path)
             type = path[/(?<=\.)[^.\/]+\z/].to_s.downcase
