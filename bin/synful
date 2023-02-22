@@ -86,7 +86,7 @@ class Synful < Sinatra::Application
         warn "unreadable '#{path}'"
       elsif File.directory?(path)
         Find.find(path) do |path|
-          path.delete_prefix!("./") #!# TODO: is this working as expected?
+          path.delete_prefix!("./")
           if !File.readable?(path) || path == "."
             next
           elsif File.directory?(path)
