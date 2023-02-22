@@ -47,8 +47,8 @@ elsif keep
 else
   keep = nil
   deny = Set.new(((deny || []) + %w[
-    ico jpg jpeg otf png pdf gif css svg eot ttf woff woff2 o a dylib
-    gem gz zip sqlite3 DS_Store
+    css gif ico jpg jpeg otf png pdf svg eot ttf woff woff2 o a dylib
+    gem gz lock zip sqlite3 DS_Store
   ]).map(&:downcase))
 end
 
