@@ -4,7 +4,7 @@
 # synful - Ruby utility that shows syntax highlighted code in your browser
 #
 # Author: Steve Shreeve (steve.shreeve@gmail.com)
-#   Date: Feb 18, 2023
+#   Date: Feb 22, 2023
 #
 # Thanks to Julie Evans for creating the amazing rouge library!
 # ============================================================================
@@ -14,7 +14,6 @@
 # ============================================================================
 # TODO:
 # 1. Ensure there is a section for a file, even when it has a bad encoding
-# 2. See https://stackoverflow.com/questions/18519641/why-cant-i-refer-to-data-in-class-context
 # ============================================================================
 
 require "optparse"
