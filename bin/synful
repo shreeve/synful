@@ -135,15 +135,28 @@ __END__
   <title>Synful</title>
   <link rel="icon" href="data:,">
   <style type="text/css">
-    html body { font-size: 14px; }
-    body { font-family: Verdana; padding: 5px; }
     a { text-decoration: none; }
-    h4 a { color: #fff; font-weight: bold; margin: 0; border: none; }
-    h4 a:hover { background: #333; }
-    h4 { background: black; color: white; padding: 5px; margin: 0; border: none; }
+    body { margin: 0; padding: 0; font-family: Verdana; font-size: 14px; }
+    pre { margin: 0; font-family: Consolas, Menlo, monospace; }
+
+    .cap {
+      background: black;
+      color: white;
+      font-weight: bold;
+      line-height: 30px;
+      display: grid;
+      grid-template-columns: 1fr 10em;
+      align-items: stretch;
+    }
+    .cap > div:nth-child(1) { padding-left: 1em; }
+    .cap > div:nth-child(2) { display: grid; grid-template-columns: 1fr 1fr 1fr; place-content: stretch; }
+    .cap a { text-align: center; color: white; }
+    .cap a:hover { background: rgba(255,255,255,0.5); }
+
+    @media print { .cap > div:nth-child(2) { display: none; } }
+
     li a { color: #000; }
     li a:hover { text-decoration: underline; color: #666; }
-    pre { margin: 0; font-family: Consolas, Menlo, monospace; }
 
     .rouge-table                { padding: 0; border-collapse: collapse; }
     .rouge-table td             { padding: 0; vertical-align: top; }
@@ -226,13 +239,15 @@ __END__
 <%= erb :toc if (count = @list.size) > 1 %><%
   @list.each_with_index do |file, i|
     @file = file
-    @prev = @list[(i - 1) % count]
     @next = @list[(i + 1) % count]
+    @prev = @list[(i - 1) % count]
     @curr = count > 1 ? "#{i + 1}) " : "" %>
 <%= erb :file %><% end %>
 
 @@ toc
-<h4><a name="top">Index</a></h4>
+<div class="cap">
+  <div><a name="top">Index</a></div>
+</div>
 
 <ul><% @list.each do |file| %>
   <li><a href="#<%= file %>"><%= file %></a></li><% end %>
@@ -262,18 +277,20 @@ __END__
   end
 %>
 
-<h4>
-  <a name="<%= @file %>"><%= @curr %><%= @file %>
-    (<%= data.count("\n") + 1 %> lines)
-    <%= "[" + type.tag + "]" if type %>
-    <%= File.mtime(@file).strftime("on %Y-%m-%d at %-I:%M %P") %>
-  </a>
-  <span style="float: right">
-  <a class="jump" href="#<%= @prev %>">&nbsp;&nbsp;&nbsp;&nbsp;&darr;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-  <a class="jump" href="#<%= @next %>">&nbsp;&nbsp;&nbsp;&nbsp;&UpArrow;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-  <a class="jump" href="#top">&nbsp;&nbsp;&nbsp;&nbsp;⥣&nbsp;&nbsp;&nbsp;&nbsp;</a>
-  </span>
-</h4>
+<div class="cap">
+  <div>
+    <a name="<%= @file %>"><%= @curr %><%= @file %>
+      (<%= data.count("\n") + 1 %> lines)
+      <%= "[" + type.tag + "]" if type %>
+      <%= File.mtime(@file).strftime("on %Y-%m-%d at %-I:%M %P") %>
+    </a>
+  </div>
+  <div>
+    <a href="#<%= @next %>">&darr;</a>
+    <a href="#<%= @prev %>">&UpArrow;</a>
+    <a href="#top">⥣</a>
+  </div>
+</div>
 
 <%=
   if type
