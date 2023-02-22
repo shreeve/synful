@@ -69,61 +69,66 @@ Rouge::Lexers::ERB.filenames "*.eco"
 
 require "find"
 require "set"
-require "sinatra"
+require "sinatra/base"
 
 $stderr = $stderr.dup.reopen File.new("/dev/null", "w") # turn off logger
 
-set :server, "webrick"
+class Synful < Sinatra::Application
+  enable :inline_templates
+  set :server, "webrick"
 
-get "*" do
-  skip, want, fore, keep, deny = [$skip, $want, $fore, $keep, $deny]
+  get "*" do
+    skip, want, fore, keep, deny = [$skip, $want, $fore, $keep, $deny]
 
-  init = Time.now.to_f
+    init = Time.now.to_f
 
-  @list = want.inject([]) do |list, path|
-    if !File.readable?(path)
-      warn "unreadable '#{path}'"
-    elsif File.directory?(path)
-      Find.find(path) do |path|
-        path.delete_prefix!("./") #!# TODO: is this working as expected?
-        if !File.readable?(path) || path == "."
-          next
-        elsif File.directory?(path)
-          Find.prune if File.basename(path).start_with?(".") or skip&.include?(path)
-        elsif File.file?(path)
-          next if skip&.include?(path)
-          type = path[/(?<=\.)[^.\/]+\z/].to_s.downcase
-          list << path if keep ? keep.include?(type) : !deny.include?(type)
-        else
-          warn "unknown '#{path}'"
+    @list = want.inject([]) do |list, path|
+      if !File.readable?(path)
+        warn "unreadable '#{path}'"
+      elsif File.directory?(path)
+        Find.find(path) do |path|
+          path.delete_prefix!("./") #!# TODO: is this working as expected?
+          if !File.readable?(path) || path == "."
+            next
+          elsif File.directory?(path)
+            Find.prune if File.basename(path).start_with?(".") or skip&.include?(path)
+          elsif File.file?(path)
+            next if skip&.include?(path)
+            type = path[/(?<=\.)[^.\/]+\z/].to_s.downcase
+            list << path if keep ? keep.include?(type) : !deny.include?(type)
+          else
+            warn "unknown '#{path}'"
+          end
         end
+      elsif File.file?(path)
+        list << path # requested explicitly
       end
-    elsif File.file?(path)
-      list << path # requested explicitly
-    end
-    list
-  end.sort.uniq
+      list
+    end.sort.uniq
 
-  # show filenames
-  time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-  STDERR.puts "\n[#{time}]\n\n", @list.map {|item| "  • #{item}"}
+    # show filenames
+    time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    STDERR.puts "\n[#{time}]\n\n", @list.map {|item| "  • #{item}"}
 
-  # generate content and generation time
-  $err = false
-  body = erb :page
-  wait = Time.now.to_f - init
-  STDERR.puts "\nTime elapsed: %.2f" % wait
+    # generate content and generation time
+    $err = false
+    body = erb :page
+    wait = Time.now.to_f - init
+    STDERR.puts "\nTime elapsed: %.2f" % wait
 
-  # send response
-  $fore or Thread.new { sleep wait; exit! } # how can we know when the request is "done?"
-  headers "Connection" => "close"
-  body
+    # send response
+    $fore or Thread.new { sleep wait; exit! } # how can we know when the request is "done?"
+    headers "Connection" => "close"
+    body
+  end
 end
 
 Thread.new do
-  sleep 0.1 until settings.running?
-  fork or exec "open 'http://localhost:#{settings.port}/'"
+  sleep 0.1 until Synful.running?
+  fork or exec "open 'http://localhost:#{Synful.port}/'"
 end
+
+Synful.run!
 
 __END__
 
