@@ -254,6 +254,11 @@ __END__
 @@ toc
 <div class="cap">
   <div><a name="top">Index</a></div>
+  <div>
+    <a href="#<%= @list[ 1] %>">&darr;</a>
+    <a href="#<%= @list[-1] %>">&UpArrow;</a>
+    <a href="#top">⥣</a>
+  </div>
 </div>
 
 <ul><% @list.each do |file| %>
