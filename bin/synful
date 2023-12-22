@@ -19,6 +19,7 @@
 require "optparse"
 
 OptionParser.new.instance_eval do
+  @version = "1.1.2"
   @banner  = "usage: #{program_name} [options] <paths ...> [--] <-paths_to_skip ...>"
 
   on '-b'         , '--bypass'    , 'Bypass (skip over) top comments (begin with "#") in files'
@@ -270,6 +271,7 @@ __END__
   begin
     data = File.read(@file)
     data.gsub!(/\t/, "  ") # replace tab with 2 spaces (make configurable?)
+    data.gsub!(/\r\n?/, "\n") # replace CRLF with LF (fixes double vertical lines)
     data.sub!(/\A.*?(?=^[^#\s])/m, "") if $nuke # nuke top comments (license, etc.)
     type = Rouge::Lexer.guess(filename:@file, source:data)
   rescue ArgumentError => e

@@ -2,10 +2,10 @@
 
 Gem::Specification.new do |s|
   s.name        = "synful"
-  s.version     = "1.1.1"
+  s.version     = `grep -m 1 '^\s*@version' bin/synful | cut -f 2 -d '"'`
   s.author      = "Steve Shreeve"
   s.email       = "steve.shreeve@gmail.com"
-  s.summary     =
+  s.summary     = "A " +
   s.description = "Ruby utility that shows syntax highlighted code in your browser"
   s.homepage    = "https://github.com/shreeve/synful"
   s.license     = "MIT"
