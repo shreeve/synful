@@ -19,7 +19,7 @@
 require "optparse"
 
 OptionParser.new.instance_eval do
-  @version = "1.1.4"
+  @version = "1.1.5"
   @banner  = "usage: #{program_name} [options] <paths ...> [--] <-paths_to_skip ...>"
 
   on '-b'         , '--bypass'    , 'Bypass (skip over) top comments (begin with "#") in files'
@@ -275,7 +275,7 @@ __END__
 @@ file
 <%
   begin
-    data = File.read(@file)
+    data = File.open(@file, "r:bom", &:read)
     data.gsub!(/\t/, "  ") # replace tab with 2 spaces (make configurable?)
     data.gsub!(/\r\n?/, "\n") # replace CRLF with LF (fixes double vertical lines)
     data.sub!(/\A.*?(?=^[^#\s])/m, "") if $nuke # nuke top comments (license, etc.)
