@@ -4,7 +4,7 @@
 # synful - Ruby utility that shows syntax highlighted code in your browser
 #
 # Author: Steve Shreeve (steve.shreeve@gmail.com)
-#   Date: Feb 22, 2023
+#   Date: Sep 5, 2024
 #
 # Thanks to Julie Evans for creating the amazing rouge library!
 # ============================================================================
@@ -19,7 +19,7 @@
 require "optparse"
 
 OptionParser.new.instance_eval do
-  @version = "1.1.2"
+  @version = "1.1.4"
   @banner  = "usage: #{program_name} [options] <paths ...> [--] <-paths_to_skip ...>"
 
   on '-b'         , '--bypass'    , 'Bypass (skip over) top comments (begin with "#") in files'
@@ -27,6 +27,7 @@ OptionParser.new.instance_eval do
   on '-h'         , '--help'      , 'Show help and command usage' do Kernel.abort to_s; end
   on '-i <exts>'  , '--include'   , 'Comma list of extensions to include (incompatible with -x)', Array
   on '-x <exts>'  , '--exclude'   , 'Comma list of extensions to exclude (incompatible with -i)', Array
+  on '-w'         , '--windows'   , 'Re-encode files from Windows-1252 to UTF-8'
 
   self
 end.parse!(into: opts={}) rescue abort($!.message)
@@ -39,6 +40,11 @@ nuke = opts[:bypass    ]
 fore = opts[:foreground]
 keep = opts[:include   ] # will become a Set or nil
 deny = opts[:exclude   ] # will become a Set or nil
+
+if opts[:windows]
+  Encoding.default_external = "Windows-1252"
+  Encoding.default_internal = "UTF-8"
+end
 
 if keep && deny
   abort "#{File.basename $0}: include and exclude cannot be used together"
