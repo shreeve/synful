@@ -5,6 +5,7 @@
 #
 # Author: Steve Shreeve (steve.shreeve@gmail.com)
 #   Date: Sep 5, 2024
+# Update: Aug 1, 2025
 #
 # Thanks to Julie Evans for creating the amazing rouge library!
 # ============================================================================
@@ -19,7 +20,7 @@
 require "optparse"
 
 OptionParser.new.instance_eval do
-  @version = "1.1.5"
+  @version = "1.3.2"
   @banner  = "usage: #{program_name} [options] <paths ...> [--] <-paths_to_skip ...>"
 
   on '-b'         , '--bypass'    , 'Bypass (skip over) top comments (begin with "#") in files'
@@ -75,13 +76,13 @@ Rouge::Lexers::ERB.filenames "*.eco"
 
 require "find"
 require "set"
-require "sinatra/base"
+require "sinatra"
 
 $stderr = $stderr.dup.reopen File.new("/dev/null", "w") # turn off logger
 
-class Synful < Sinatra::Application
+class Synful < Sinatra::Base
   enable :inline_templates
-  set :server, "webrick"
+  set :server, "puma"
 
   get "*" do
     skip, want, fore, keep, deny = [$skip, $want, $fore, $keep, $deny]
