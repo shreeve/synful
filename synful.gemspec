@@ -16,5 +16,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "sinatra"        , "~> 4.0"
   s.add_runtime_dependency "rack-protection", "~> 4.0"
   s.add_runtime_dependency "rack-session"   , "~> 2.0"
+  s.add_runtime_dependency "rackup"         , "~> 2.2"
   s.add_runtime_dependency "rouge"          , "~> 4.0"
+  s.add_runtime_dependency "base64"         , "~> 0.3"
 end

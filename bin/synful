@@ -20,7 +20,7 @@
 require "optparse"
 
 OptionParser.new.instance_eval do
-  @version = "1.3.2"
+  @version = "1.4.0"
   @banner  = "usage: #{program_name} [options] <paths ...> [--] <-paths_to_skip ...>"
 
   on '-b'         , '--bypass'    , 'Bypass (skip over) top comments (begin with "#") in files'
@@ -68,9 +68,10 @@ require "rouge"
 
 $show = Rouge::Formatters::HTMLLegacy.new(line_numbers: true)
 
-Rouge::Lexers::Ruby.filenames "*.rbx", "*.ru", "*.imba"
-Rouge::Lexers::Sass.filenames "*.styl"
-Rouge::Lexers::ERB.filenames "*.eco"
+Rouge::Lexers::Coffeescript.filenames "*.rip"
+Rouge::Lexers::Ruby        .filenames "*.rbx", "*.ru", "*.imba"
+Rouge::Lexers::Sass        .filenames "*.styl"
+Rouge::Lexers::ERB         .filenames "*.eco"
 
 # ============================================================================
 
